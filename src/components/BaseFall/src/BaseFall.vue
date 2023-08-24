@@ -9,18 +9,20 @@
 </template>
 <script setup lang="ts">
 import { isEmpty } from 'lodash'
-import { ref, onMounted, useSlots, computed } from 'vue'
+import { useSlots, computed } from 'vue'
 
 const slots = useSlots()
 
-const column = 6
+const column = computed(() => {
+  return Math.floor(window.innerWidth / 260) || 1
+})
 const source = computed(() => {
-  const cache = []
+  const cache: any = []
   const children = slots.default?.() ?? []
   if (isEmpty(children)) return cache
-  const list = children[0].children ?? []
-  list.forEach((item, i) => {
-    const index = i % column
+  const list: any = children[0].children ?? []
+  list.forEach((item: any, i: any) => {
+    const index = i % column.value
     console.log('index', index)
     if (!cache[index]) cache[index] = []
     cache[index].push(item)
